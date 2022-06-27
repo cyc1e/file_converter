@@ -13,9 +13,13 @@ async def converter(request):
     )
     try:
         with tempfile.NamedTemporaryFile() as outputPath:
-            format = request.rel_url.query.get('format')
-            if not format:
-                 raise web.HTTPBadRequest(reason='format is required')
+            formatByUrl = request.rel_url.query.get('format')
+            filterByUrl = request.rel_url.query.get('filter')
+            if not formatByUrl:
+                raise web.HTTPBadRequest(reason='format is required')
+            format = formatByUrl
+            if filterByUrl != None:
+                format = f"'{format}:{filterByUrl}'"
             reader = await request.multipart()
             docx = await reader.next()
 
@@ -38,8 +42,8 @@ async def converter(request):
             p = subprocess.Popen(command, shell=True, executable='/bin/bash')
             
             p.wait()
-            path = f"{outputPath.name}.{format}"
-            response.content_type = f'application/{format}'
+            path = f"{outputPath.name}.{formatByUrl}"
+            response.content_type = f'application/{formatByUrl}'
 
             await response.prepare(request)
 

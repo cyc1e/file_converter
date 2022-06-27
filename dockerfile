@@ -3,7 +3,7 @@ FROM python:3.6.2-jessie
 RUN echo deb http://ftp.ru.debian.org/debian/ jessie main non-free contrib >> /etc/apt/sources.list \
     && apt-get update \
     && apt-get -y install sudo \
-    libreoffice-writer \
+    libreoffice --no-install-recommends \
     openjdk-7-jre-headless \
     ttf-mscorefonts-installer \
     && pip install --no-cache-dir --upgrade pip \
