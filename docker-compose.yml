@@ -3,12 +3,15 @@ services:
   libre1:
     build:
       context: .
+      dockerfile: dockerfile
   libre2:
     build:
       context: .
+      dockerfile: dockerfile
   libre3:
     build:
       context: .
+      dockerfile: dockerfile
   balancer:
     image: "nginx:1.13.5-alpine"
     ports:
